@@ -81,35 +81,31 @@ $data[1]=$ventast2;
     INNER JOIN inventory ON film.film_id=inventory.film_id
     INNER JOIN rental ON inventory.inventory_id=rental.inventory_id order by name ASC";
 
+
     $category = DB::select($categorysql);
      $newarray=null;
     for ($x = 0; $x < count($category);$x++){
         $newarray[$x]=$category[$x]->name;
             }
-   $count=1;
-   $arrayval=0;
-   $data2 = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-$catact=$newarray[0];  
+     $data2 = array_count_values($newarray);
 
-    for ($x = 0; $x < count($category)-1;$x++){
-if($newarray[$x]==$newarray[$x+1]){
-$data2[$arrayval]++;
-}else{
-    $arrayval++;
-    $data2[$arrayval]++;
-}
-    }
-  $labelsg2;
+
+     $labelsg2=null;
   $categorylabelsql ="select name from category;";
   $categorylabel = DB::select($categorylabelsql);
   for ($x = 0; $x < count($categorylabel);$x++){
     $labelsg2[$x]=$categorylabel[$x]->name;
         }
 
+$data2def=array();
+for($x = 0; $x < count($categorylabel);$x++){
+    array_push($data2def, $data2[$labelsg2[$x]]);
+    }
+
 
     return view('comparatiendas')
     ->with('data', $data)
-    ->with('data2', $data2)
+    ->with('data2', $data2def)
     ->with('labelsg2', $labelsg2);
 }
 

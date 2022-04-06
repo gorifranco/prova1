@@ -16,7 +16,7 @@ class graficoController extends Controller
         where month(rental.rental_date) between month('2005/01/01') and month('2005/8/30')
         group by month(rental.rental_date) order by mes ASC;";
         $consultas = DB::select($sql);
-        $meses = [16];
+        $meses = [count($consultas)];
         $i=0;
             foreach ($consultas as $consulta) {
                 while ($i < (($consulta->mes)-1)) {
