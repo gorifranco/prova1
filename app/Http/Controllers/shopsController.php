@@ -99,8 +99,6 @@ $data2[$arrayval]++;
     $data2[$arrayval]++;
 }
     }
-
-
   $labelsg2;
   $categorylabelsql ="select name from category;";
   $categorylabel = DB::select($categorylabelsql);

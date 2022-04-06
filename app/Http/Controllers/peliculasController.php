@@ -65,26 +65,22 @@ class peliculasController extends Controller
         WHERE film.film_id= '".$film_id."';";
 
         $newarray;
-        $inventory=array(0,0);
 $instore = DB::select($instoresql);
 for ($x = 0; $x < count($instore);$x++){
 $newarray[$x]=$instore[$x]->address;
     }
+    $inventory = array_count_values($newarray);
 
-$arrayval=0;
-$inact="47 MySakila Drive";    
-    for ($x = 0; $x < count($newarray)-1;$x++){  
+    $lbls=DB::select("select address FROM goridb.address
+    where address_id = 1 or address_id = 2;");
 
-if($inact==$newarray[$x+1]){
-$inventory[$arrayval]++;
-}else{
-    $inventory[$arrayval]++;
-    $arrayval++;
-    $inact=$newarray[$x+1];
-
-}
+    $lblsdef=array();
+    for($i=0;$i<count($lbls);$i++){
+        if($lbls[$i]!=null){
+            array_push($lblsdef, $lbls[$i]->address);
+        }
     }
-    $inventory[$arrayval]++;
+
 
      
          $film = Film::find($film_id);
@@ -104,7 +100,8 @@ $inventory[$arrayval]++;
         ->with('actors', $actors)
         ->with('language', $language)
         ->with('category', $category)
-        ->with('inventory', $inventory);
+        ->with('inventory', $inventory)
+        ->with('shops', $lblsdef);
     }
 
 }

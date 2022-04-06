@@ -17,10 +17,8 @@
 @endfor
 
 <br><br>Disponible en tienda: 
-<br>Tienda 1: {{$inventory[0]}} unidades disponibles en stock.
-<br>Tienda 2: {{$inventory[1]}} unidades disponibles en stock.
-
-
-  
+@for ($x = 0; $x<count($shops);$x++)
+<br>Shop: {{$shops[$x]}}: Unidades disponibles en esta tienda: {{$inventory[$shops[$x]]}} 
+@endfor
     </body>
 </html>
